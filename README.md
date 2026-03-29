@@ -31,6 +31,7 @@
 ```text
 Flask-Backend-Dev/
 ├─ app.py
+├─ .env.example
 ├─ public/
 └─ templates/
    ├─ index.html
@@ -75,6 +76,7 @@ SECRET_KEY=replace-with-a-long-random-secret
 ```
 
 本專案在 `app.py` 使用 `load_dotenv()`，啟動時會自動讀取 `.env`。
+此外，`app.py` 已使用 `if __name__ == "__main__":` 包住 `app.run(...)`，避免被 import 時直接啟動伺服器。
 
 ### 4) 啟動專案
 
@@ -88,7 +90,7 @@ python app.py
 
 若未設定 `MONGODB_URI` 或 `SECRET_KEY`，程式會在啟動時拋出錯誤。
 
-:bulb: 請將 `.env` 加入 `.gitignore`，這樣環境變數才不會被 Git 追蹤。
+`.env` 已加入 `.gitignore`，環境變數不會被 Git 追蹤。
 
 ## 路由說明
 
