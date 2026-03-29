@@ -1,12 +1,16 @@
 # 初始化資料庫連線
+import os
 from pymongo import * # 載入 pymongo 模組套件
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
-from bson.objectid import ObjectId # 從 bson.objectid 封包載入 Objectid 物件
+from dotenv import load_dotenv
 # 連線到 MongoDB 雲端資料庫
-uri = "mongodb+srv://root:root123@mycluster1.bn1qife.mongodb.net/?appName=MyCluster1"
+load_dotenv()
+db_uri = os.getenv("MONGODB_URI")
+if not db_uri:
+    raise RuntimeError("環境變數 MONGODB_URI 尚未設定")
 # 創建一個新帳戶然後連線到伺服器
-client = MongoClient(uri, server_api=ServerApi('1'))
+client = MongoClient(db_uri, server_api=ServerApi('1'))
 # 傳送 ping 訊號去確認是否成功連線
 try:
     client.admin.command('ping')
@@ -22,7 +26,9 @@ from flask import *
 # 建立 Application 物件，並設置靜態檔案處理
 app = Flask(__name__, static_folder="public", static_url_path="/")
 # 設定 Session 密鑰
-app.secret_key = "Xiaobao0813"
+app.secret_key = os.getenv("SECRET_KEY")
+if not app.secret_key:
+    raise RuntimeError("環境變數 SECRET_KEY 尚未設定")
 # 處理路由
 @app.route("/")
 def index():
@@ -105,4 +111,5 @@ def signout():
     return redirect("/")
 
 # 啟動伺服器在 Port 3000
-app.run(port=3000)
+if __name__ == "__main__":
+    app.run(port=3000)

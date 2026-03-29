@@ -1,0 +1,4 @@
+# all png files
+*.png
+# env files
+.env
