@@ -88,7 +88,7 @@ python app.py
 
 若未設定 `MONGODB_URI` 或 `SECRET_KEY`，程式會在啟動時拋出錯誤。
 
-:bulb:請將 `.env` 加入 `.gitignore`，這樣環境變數才不會被 Git 追蹤。
+:bulb: 請將 `.env` 加入 `.gitignore`，這樣環境變數才不會被 Git 追蹤。
 
 ## 路由說明
 
