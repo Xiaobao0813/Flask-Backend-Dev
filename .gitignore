@@ -3,5 +3,5 @@
 # env files
 .env
 # .vscode
-.vscode/
+/.vscode
 # vercel deployment
