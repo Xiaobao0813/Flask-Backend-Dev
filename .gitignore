@@ -2,8 +2,6 @@
 *.png
 # env files
 .env
+# .vscode
+.vscode/
 # vercel deployment
-.vercel
-*.log
-*.pyc
-__pycache__
