@@ -18,7 +18,7 @@
 4. 登入成功後以 Session 保存會員帳號資訊
 5. 登出後移除 Session 並返回首頁
 
-## 技術棧
+## 技術線
 
 - Python 3.10+
 - Flask
@@ -95,6 +95,8 @@ python app.py
 `.env` 已加入 `.gitignore`，環境變數不會被 Git 追蹤。
 
 ## 部署到 Vercel
+
+- 我的 Vercel 網址：https://flask-backend-dev-psi.vercel.app/
 
 ### 1) 前置確認
 
