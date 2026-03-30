@@ -32,6 +32,8 @@
 Flask-Backend-Dev/
 ├─ app.py
 ├─ .env.example
+├─ requirements.txt
+├─ vercel.json
 ├─ public/
 └─ templates/
    ├─ index.html
@@ -91,6 +93,44 @@ python app.py
 若未設定 `MONGODB_URI` 或 `SECRET_KEY`，程式會在啟動時拋出錯誤。
 
 `.env` 已加入 `.gitignore`，環境變數不會被 Git 追蹤。
+
+## 部署到 Vercel
+
+### 1) 前置確認
+
+- 已將專案推到 GitHub
+- 專案根目錄包含 `requirements.txt` 與 `vercel.json`
+- MongoDB Atlas 已建立資料庫帳號與連線字串
+
+### 2) 在 Vercel 匯入專案
+
+1. 前往 Vercel Dashboard
+2. 點選 `Add New Project`
+3. 選擇你的 GitHub repo（Flask-Backend-Dev）
+4. Framework Preset 可選 `Other`（或保持預設）
+5. 點選 Deploy
+
+### 3) 設定環境變數（必要）
+
+到 Vercel 專案設定的 `Settings > Environment Variables`，新增：
+
+- `MONGODB_URI`：MongoDB Atlas 連線字串
+- `SECRET_KEY`：任意長隨機字串
+
+新增後請重新 Deploy（或 Redeploy）讓設定生效。
+
+### 4) MongoDB Atlas 連線設定
+
+- `Database Access`：確認使用者帳號密碼正確
+- `Network Access`：確認 Vercel 可連線
+
+若部署後出現 MongoDB 連線錯誤，可先用 `0.0.0.0/0` 測試連線，再依需求收斂成更嚴格的規則。
+
+### 5) 本機與雲端差異
+
+- 本機：透過 `.env` + `load_dotenv()` 載入環境變數
+- Vercel：由平台的 Environment Variables 提供環境變數
+- `if __name__ == "__main__":` 僅影響本機直接執行，Vercel 會以 serverless 方式載入 `app.py`
 
 ## 路由說明
 
