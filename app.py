@@ -4,6 +4,7 @@ from pymongo import * # 載入 pymongo 模組套件
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from dotenv import load_dotenv
+from waitress import serve
 # 連線到 MongoDB 雲端資料庫
 load_dotenv()
 db_uri = os.getenv("MONGODB_URI")
@@ -110,6 +111,10 @@ def signout():
     del session["account"]
     return redirect("/")
 
-# 啟動伺服器在 Port 3000
+# 啟動伺服器（dev: Flask 內建伺服器；prod: Waitress）
 if __name__ == "__main__":
-    app.run(port=3000)
+    mode = "prod"
+    if mode == "dev":
+        app.run(debug=True)
+    else:
+        serve(app, host='0.0.0.0', port=3000, threads=1)

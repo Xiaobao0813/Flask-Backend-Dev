@@ -18,12 +18,13 @@
 4. 登入成功後以 Session 保存會員帳號資訊
 5. 登出後移除 Session 並返回首頁
 
-## 技術線
+## 技術棧
 
 - Python 3.10+
 - Flask
 - PyMongo
 - python-dotenv
+- Waitress
 - MongoDB Atlas
 
 ## 專案結構
@@ -57,7 +58,7 @@ python -m venv .venv
 ### 2) 安裝依賴套件
 
 ```powershell
-pip install flask pymongo python-dotenv
+pip install flask pymongo python-dotenv waitress
 ```
 
 ### 3) 設定環境變數
@@ -78,12 +79,21 @@ SECRET_KEY=replace-with-a-long-random-secret
 ```
 
 本專案在 `app.py` 使用 `load_dotenv()`，啟動時會自動讀取 `.env`。
-此外，`app.py` 已使用 `if __name__ == "__main__":` 包住 `app.run(...)`，避免被 import 時直接啟動伺服器。
+此外，`app.py` 已使用 `if __name__ == "__main__":` 與 `mode` 切換啟動方式：
+
+- `mode = "dev"`：使用 Flask 內建伺服器（`app.run(debug=True)`）
+- `mode = "prod"`：使用 Waitress（`serve(app, host='0.0.0.0', port=3000, threads=1)`）
 
 ### 4) 啟動專案
 
 ```powershell
 python app.py
+```
+
+若要切換模式，請到 `app.py` 調整：
+
+```python
+mode = "prod"  # 可改成 "dev"
 ```
 
 伺服器會啟動於：
@@ -93,6 +103,11 @@ python app.py
 若未設定 `MONGODB_URI` 或 `SECRET_KEY`，程式會在啟動時拋出錯誤。
 
 `.env` 已加入 `.gitignore`，環境變數不會被 Git 追蹤。
+
+### 5) 模式說明
+
+- 開發模式（`dev`）：方便除錯，會開啟 Flask debug
+- 正式模式（`prod`）：使用 Waitress，較接近正式環境
 
 ## 部署到 Vercel
 
